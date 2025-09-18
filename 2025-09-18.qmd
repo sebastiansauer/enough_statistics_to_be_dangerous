@@ -8,16 +8,21 @@ format: html
 
 # Load the libraries
 
+
 ```{r}
-
+library(easystats)
+library(tidyverse)
+library(ggpubr)
 ```
-
 
 # Load the data
 
 ```{r}
+penguins <- read.csv("https://vincentarelbundock.github.io/Rdatasets/csv/palmerpenguins/penguins.csv")
 
+# head(d)  # see the first few rows, the "head" of the table
 ```
+
 
 
 # Have fun!
@@ -43,7 +48,70 @@ Write the lm code for the above research question.
 Save the results of the lm in some object.
 
 ```{r}
-lm()
+modelx2 <- lm(body_mass_g ~ bill_length_mm + sex, data = penguins)
+
+summary(modelx2)  # parameters(modelx2)
+coef(modelx2)
+modelx2
 ```
+
+```{r}
+parameters(modelx2) |> print_md()
+```
+
+# Case study on movie succes
+
+
+## Load data
+
+```{r}
+movies <- read.csv("https://vincentarelbundock.github.io/Rdatasets/csv/ggplot2movies/movies.csv")
+```
+
+
+## Overview on data
+
+Including missing data
+
+```{r}
+movies |> 
+  describe_distribution()
+```
+
+
+## Visualize DV
+
+```{r}
+ggdensity(movies, x = "rating")
+```
+
+
+## Prepare data
+
+```{r}
+movies_nona <-
+  movies |> 
+  filter(budget > 0)
+```
+
+
+## Model rating ~ budget
+
+
+```{r}
+m_movies_budget <-
+  lm(rating~budget, data = movies)
+
+parameters(m_movies_budget)
+
+r2(m_movies_budget)
+```
+
+
+
+
+
+
+
 
 
