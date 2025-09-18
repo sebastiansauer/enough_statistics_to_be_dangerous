@@ -121,9 +121,46 @@ r2(m_movies_budget)
 
 
 
+### Cleanse penguins
+
+```{r}
+penguins_filtered <- 
+penguins |>  # and then
+  filter(sex == "male" | sex == "female")
+```
 
 
+```{r}
+lm_peng_weight_sex_filtered <-
+  lm(body_mass_g ~ sex, data = penguins_filtered)
 
+parameters(lm_peng_weight_sex_filtered)
+r2(lm_peng_weight_sex_filtered)
+```
+
+"We found a difference in weight between female and male penguins, 95%CI [526g, 841g], 
+with male animals being heavier."
+
+--> We reject the H0 (H0: no difference in MEANS! between the two groups).
+
+
+## Bayesian flavor
+
+
+```{r}
+library(rstanarm)
+```
+
+
+Nearly the same R code as above:
+
+```{r}
+lm_peng_weight_sex_filtered <-
+  stan_glm(body_mass_g ~ sex, data = penguins_filtered)
+
+parameters(lm_peng_weight_sex_filtered)
+r2(lm_peng_weight_sex_filtered)
+```
 
 
 
