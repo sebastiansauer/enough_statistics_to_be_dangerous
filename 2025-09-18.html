@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>20225-09-18</title>
+<title>2025-09-18</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -73,15 +73,40 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="fullcontent quarto-light">
+<body class="quarto-light">
 
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#welcome" id="toc-welcome" class="nav-link active" data-scroll-target="#welcome">Welcome!</a></li>
+  <li><a href="#load-the-libraries" id="toc-load-the-libraries" class="nav-link" data-scroll-target="#load-the-libraries">Load the libraries</a></li>
+  <li><a href="#load-the-data" id="toc-load-the-data" class="nav-link" data-scroll-target="#load-the-data">Load the data</a></li>
+  <li><a href="#have-fun" id="toc-have-fun" class="nav-link" data-scroll-target="#have-fun">Have fun!</a></li>
+  <li><a href="#regression" id="toc-regression" class="nav-link" data-scroll-target="#regression">Regression</a>
+  <ul class="collapse">
+  <li><a href="#y-numeric-x1-numeric-x2-nominal" id="toc-y-numeric-x1-numeric-x2-nominal" class="nav-link" data-scroll-target="#y-numeric-x1-numeric-x2-nominal">y: numeric, x1: numeric, x2: nominal</a></li>
+  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise">Exercise</a></li>
+  </ul></li>
+  <li><a href="#case-study-on-movie-succes" id="toc-case-study-on-movie-succes" class="nav-link" data-scroll-target="#case-study-on-movie-succes">Case study on movie succes</a>
+  <ul class="collapse">
+  <li><a href="#load-data" id="toc-load-data" class="nav-link" data-scroll-target="#load-data">Load data</a></li>
+  <li><a href="#overview-on-data" id="toc-overview-on-data" class="nav-link" data-scroll-target="#overview-on-data">Overview on data</a></li>
+  <li><a href="#visualize-dv" id="toc-visualize-dv" class="nav-link" data-scroll-target="#visualize-dv">Visualize DV</a></li>
+  <li><a href="#prepare-data" id="toc-prepare-data" class="nav-link" data-scroll-target="#prepare-data">Prepare data</a></li>
+  <li><a href="#model-rating-budget" id="toc-model-rating-budget" class="nav-link" data-scroll-target="#model-rating-budget">Model rating ~ budget</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">20225-09-18</h1>
+<h1 class="title">2025-09-18</h1>
+<p class="subtitle lead">Enough statistics to be dangerous</p>
 </div>
 
 
@@ -264,6 +289,384 @@ Coefficients:
 </tr>
 </tbody>
 </table>
+</div>
+</div>
+</section>
+</section>
+<section id="case-study-on-movie-succes" class="level1">
+<h1>Case study on movie succes</h1>
+<section id="load-data" class="level2">
+<h2 class="anchored" data-anchor-id="load-data">Load data</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>movies <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"https://vincentarelbundock.github.io/Rdatasets/csv/ggplot2movies/movies.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="overview-on-data" class="level2">
+<h2 class="anchored" data-anchor-id="overview-on-data">Overview on data</h2>
+<p>Including missing data</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>movies <span class="sc">|&gt;</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">describe_distribution</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print_md</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 19%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 6%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Variable</th>
+<th style="text-align: center;">Mean</th>
+<th style="text-align: center;">SD</th>
+<th style="text-align: center;">IQR</th>
+<th style="text-align: center;">Range</th>
+<th style="text-align: center;">Skewness</th>
+<th style="text-align: center;">Kurtosis</th>
+<th style="text-align: center;">n</th>
+<th style="text-align: center;">n_Missing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">rownames</td>
+<td style="text-align: center;">29394.50</td>
+<td style="text-align: center;">16970.78</td>
+<td style="text-align: center;">29394.50</td>
+<td style="text-align: center;">(1.00, 58788.00)</td>
+<td style="text-align: center;">0.00</td>
+<td style="text-align: center;">-1.20</td>
+<td style="text-align: center;">58788</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">year</td>
+<td style="text-align: center;">1976.13</td>
+<td style="text-align: center;">23.74</td>
+<td style="text-align: center;">39.00</td>
+<td style="text-align: center;">(1893.00, 2005.00)</td>
+<td style="text-align: center;">-0.68</td>
+<td style="text-align: center;">-0.58</td>
+<td style="text-align: center;">58788</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">length</td>
+<td style="text-align: center;">82.34</td>
+<td style="text-align: center;">44.35</td>
+<td style="text-align: center;">26.00</td>
+<td style="text-align: center;">(1.00, 5220.00)</td>
+<td style="text-align: center;">31.07</td>
+<td style="text-align: center;">3342.26</td>
+<td style="text-align: center;">58788</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">budget</td>
+<td style="text-align: center;">1.34e+07</td>
+<td style="text-align: center;">2.34e+07</td>
+<td style="text-align: center;">1.48e+07</td>
+<td style="text-align: center;">(0.00, 2.00e+08)</td>
+<td style="text-align: center;">2.78</td>
+<td style="text-align: center;">9.55</td>
+<td style="text-align: center;">5215</td>
+<td style="text-align: center;">53573</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">rating</td>
+<td style="text-align: center;">5.93</td>
+<td style="text-align: center;">1.55</td>
+<td style="text-align: center;">2.00</td>
+<td style="text-align: center;">(1.00, 10.00)</td>
+<td style="text-align: center;">-0.41</td>
+<td style="text-align: center;">0.12</td>
+<td style="text-align: center;">58788</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">votes</td>
+<td style="text-align: center;">632.13</td>
+<td style="text-align: center;">3829.62</td>
+<td style="text-align: center;">101.00</td>
+<td style="text-align: center;">(5.00, 1.58e+05)</td>
+<td style="text-align: center;">16.40</td>
+<td style="text-align: center;">396.35</td>
+<td style="text-align: center;">58788</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">r1</td>
+<td style="text-align: center;">7.01</td>
+<td style="text-align: center;">10.94</td>
+<td style="text-align: center;">4.50</td>
+<td style="text-align: center;">(0.00, 100.00)</td>
+<td style="text-align: center;">3.03</td>
+<td style="text-align: center;">12.60</td>
+<td style="text-align: center;">58788</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">r2</td>
+<td style="text-align: center;">4.02</td>
+<td style="text-align: center;">5.96</td>
+<td style="text-align: center;">4.50</td>
+<td style="text-align: center;">(0.00, 84.50)</td>
+<td style="text-align: center;">2.99</td>
+<td style="text-align: center;">15.04</td>
+<td style="text-align: center;">58788</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">r3</td>
+<td style="text-align: center;">4.72</td>
+<td style="text-align: center;">6.45</td>
+<td style="text-align: center;">4.50</td>
+<td style="text-align: center;">(0.00, 84.50)</td>
+<td style="text-align: center;">2.77</td>
+<td style="text-align: center;">12.80</td>
+<td style="text-align: center;">58788</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">r4</td>
+<td style="text-align: center;">6.37</td>
+<td style="text-align: center;">7.59</td>
+<td style="text-align: center;">4.50</td>
+<td style="text-align: center;">(0.00, 100.00)</td>
+<td style="text-align: center;">2.15</td>
+<td style="text-align: center;">7.40</td>
+<td style="text-align: center;">58788</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">r5</td>
+<td style="text-align: center;">9.80</td>
+<td style="text-align: center;">9.73</td>
+<td style="text-align: center;">10.00</td>
+<td style="text-align: center;">(0.00, 100.00)</td>
+<td style="text-align: center;">1.60</td>
+<td style="text-align: center;">4.31</td>
+<td style="text-align: center;">58788</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">r6</td>
+<td style="text-align: center;">13.04</td>
+<td style="text-align: center;">10.98</td>
+<td style="text-align: center;">10.00</td>
+<td style="text-align: center;">(0.00, 84.50)</td>
+<td style="text-align: center;">1.18</td>
+<td style="text-align: center;">2.62</td>
+<td style="text-align: center;">58788</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">r7</td>
+<td style="text-align: center;">15.55</td>
+<td style="text-align: center;">11.59</td>
+<td style="text-align: center;">20.00</td>
+<td style="text-align: center;">(0.00, 100.00)</td>
+<td style="text-align: center;">0.86</td>
+<td style="text-align: center;">1.67</td>
+<td style="text-align: center;">58788</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">r8</td>
+<td style="text-align: center;">13.88</td>
+<td style="text-align: center;">11.32</td>
+<td style="text-align: center;">20.00</td>
+<td style="text-align: center;">(0.00, 100.00)</td>
+<td style="text-align: center;">0.95</td>
+<td style="text-align: center;">1.64</td>
+<td style="text-align: center;">58788</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">r9</td>
+<td style="text-align: center;">8.95</td>
+<td style="text-align: center;">9.44</td>
+<td style="text-align: center;">10.00</td>
+<td style="text-align: center;">(0.00, 100.00)</td>
+<td style="text-align: center;">1.68</td>
+<td style="text-align: center;">4.73</td>
+<td style="text-align: center;">58788</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">r10</td>
+<td style="text-align: center;">16.85</td>
+<td style="text-align: center;">15.65</td>
+<td style="text-align: center;">20.00</td>
+<td style="text-align: center;">(0.00, 100.00)</td>
+<td style="text-align: center;">1.44</td>
+<td style="text-align: center;">2.62</td>
+<td style="text-align: center;">58788</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Action</td>
+<td style="text-align: center;">0.08</td>
+<td style="text-align: center;">0.27</td>
+<td style="text-align: center;">0.00</td>
+<td style="text-align: center;">(0.00, 1.00)</td>
+<td style="text-align: center;">3.10</td>
+<td style="text-align: center;">7.63</td>
+<td style="text-align: center;">58788</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Animation</td>
+<td style="text-align: center;">0.06</td>
+<td style="text-align: center;">0.24</td>
+<td style="text-align: center;">0.00</td>
+<td style="text-align: center;">(0.00, 1.00)</td>
+<td style="text-align: center;">3.61</td>
+<td style="text-align: center;">11.00</td>
+<td style="text-align: center;">58788</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Comedy</td>
+<td style="text-align: center;">0.29</td>
+<td style="text-align: center;">0.46</td>
+<td style="text-align: center;">1.00</td>
+<td style="text-align: center;">(0.00, 1.00)</td>
+<td style="text-align: center;">0.91</td>
+<td style="text-align: center;">-1.18</td>
+<td style="text-align: center;">58788</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Drama</td>
+<td style="text-align: center;">0.37</td>
+<td style="text-align: center;">0.48</td>
+<td style="text-align: center;">1.00</td>
+<td style="text-align: center;">(0.00, 1.00)</td>
+<td style="text-align: center;">0.53</td>
+<td style="text-align: center;">-1.71</td>
+<td style="text-align: center;">58788</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Documentary</td>
+<td style="text-align: center;">0.06</td>
+<td style="text-align: center;">0.24</td>
+<td style="text-align: center;">0.00</td>
+<td style="text-align: center;">(0.00, 1.00)</td>
+<td style="text-align: center;">3.74</td>
+<td style="text-align: center;">12.00</td>
+<td style="text-align: center;">58788</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Romance</td>
+<td style="text-align: center;">0.08</td>
+<td style="text-align: center;">0.27</td>
+<td style="text-align: center;">0.00</td>
+<td style="text-align: center;">(0.00, 1.00)</td>
+<td style="text-align: center;">3.08</td>
+<td style="text-align: center;">7.48</td>
+<td style="text-align: center;">58788</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Short</td>
+<td style="text-align: center;">0.16</td>
+<td style="text-align: center;">0.37</td>
+<td style="text-align: center;">0.00</td>
+<td style="text-align: center;">(0.00, 1.00)</td>
+<td style="text-align: center;">1.85</td>
+<td style="text-align: center;">1.41</td>
+<td style="text-align: center;">58788</td>
+<td style="text-align: center;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="visualize-dv" class="level2">
+<h2 class="anchored" data-anchor-id="visualize-dv">Visualize DV</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggdensity</span>(movies, <span class="at">x =</span> <span class="st">"rating"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2025-09-18_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="prepare-data" class="level2">
+<h2 class="anchored" data-anchor-id="prepare-data">Prepare data</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>movies_nona <span class="ot">&lt;-</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  movies <span class="sc">|&gt;</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(budget <span class="sc">&gt;</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="model-rating-budget" class="level2">
+<h2 class="anchored" data-anchor-id="model-rating-budget">Model rating ~ budget</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>m_movies_budget <span class="ot">&lt;-</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm</span>(rating<span class="sc">~</span>budget, <span class="at">data =</span> movies)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">parameters</span>(m_movies_budget) <span class="sc">|&gt;</span> </span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print_md</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 17%">
+<col style="width: 13%">
+<col style="width: 30%">
+<col style="width: 12%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: center;">Coefficient</th>
+<th style="text-align: center;">SE</th>
+<th style="text-align: center;">95% CI</th>
+<th style="text-align: center;">t(5213)</th>
+<th style="text-align: center;">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: center;">6.15</td>
+<td style="text-align: center;">0.02</td>
+<td style="text-align: center;">(6.10, 6.20)</td>
+<td style="text-align: center;">249.07</td>
+<td style="text-align: center;">&lt; .001</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">budget</td>
+<td style="text-align: center;">-9.43e-10</td>
+<td style="text-align: center;">9.18e-10</td>
+<td style="text-align: center;">(-2.74e-09, 8.56e-10)</td>
+<td style="text-align: center;">-1.03</td>
+<td style="text-align: center;">0.304</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">r2</span>(m_movies_budget) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># R2 for Linear Regression
+       R2: 0.000
+  adj. R2: 0.000</code></pre>
 </div>
 </div>
 </section>
