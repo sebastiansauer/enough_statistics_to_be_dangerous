@@ -69,6 +69,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="2025-09-18_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="2025-09-18_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="2025-09-18_files/libs/bootstrap/bootstrap-81267100e462c21b3d6c0d5bf76a3417.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="2025-09-18_files/libs/quarto-diagram/mermaid.min.js"></script>
+<script src="2025-09-18_files/libs/quarto-diagram/mermaid-init.js"></script>
+<link href="2025-09-18_files/libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 </head>
@@ -98,6 +101,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#prepare-data" id="toc-prepare-data" class="nav-link" data-scroll-target="#prepare-data">Prepare data</a></li>
   <li><a href="#model-rating-budget" id="toc-model-rating-budget" class="nav-link" data-scroll-target="#model-rating-budget">Model rating ~ budget</a></li>
   </ul></li>
+  <li><a href="#inferential-stats" id="toc-inferential-stats" class="nav-link" data-scroll-target="#inferential-stats">Inferential stats</a>
+  <ul class="collapse">
+  <li><a href="#ex.-model-dv-weight-iv-sex" id="toc-ex.-model-dv-weight-iv-sex" class="nav-link" data-scroll-target="#ex.-model-dv-weight-iv-sex">Ex.: Model DV: weight, IV: sex</a>
+  <ul class="collapse">
+  <li><a href="#cleanse-penguins" id="toc-cleanse-penguins" class="nav-link" data-scroll-target="#cleanse-penguins">Cleanse penguins</a></li>
+  </ul></li>
+  <li><a href="#bayesian-flavor" id="toc-bayesian-flavor" class="nav-link" data-scroll-target="#bayesian-flavor">Bayesian flavor</a></li>
+  </ul></li>
+  <li><a href="#common-research-designs" id="toc-common-research-designs" class="nav-link" data-scroll-target="#common-research-designs">Common research designs</a></li>
   </ul>
 </nav>
 </div>
@@ -670,6 +682,224 @@ Coefficients:
 </div>
 </div>
 </section>
+</section>
+<section id="inferential-stats" class="level1">
+<h1>Inferential stats</h1>
+<section id="ex.-model-dv-weight-iv-sex" class="level2">
+<h2 class="anchored" data-anchor-id="ex.-model-dv-weight-iv-sex">Ex.: Model DV: weight, IV: sex</h2>
+<ul>
+<li>run the model (using LM, that classical, frequentist)</li>
+<li>tell if the the IV is “significant”</li>
+</ul>
+<section id="cleanse-penguins" class="level3">
+<h3 class="anchored" data-anchor-id="cleanse-penguins">Cleanse penguins</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>penguins_filtered <span class="ot">&lt;-</span> </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span>  <span class="co"># and then</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(sex <span class="sc">==</span> <span class="st">"male"</span> <span class="sc">|</span> sex <span class="sc">==</span> <span class="st">"female"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>lm_peng_weight_sex_filtered <span class="ot">&lt;-</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm</span>(body_mass_g <span class="sc">~</span> sex, <span class="at">data =</span> penguins_filtered)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="fu">parameters</span>(lm_peng_weight_sex_filtered)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Parameter   | Coefficient |    SE |             95% CI | t(331) |      p
+------------------------------------------------------------------------
+(Intercept) |     3862.27 | 56.83 | [3750.48, 3974.06] |  67.96 | &lt; .001
+sex [male]  |      683.41 | 80.01 | [ 526.02,  840.80] |   8.54 | &lt; .001</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Uncertainty intervals (equal-tailed) and p-values (two-tailed) computed
+  using a Wald t-distribution approximation.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">r2</span>(lm_peng_weight_sex_filtered)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># R2 for Linear Regression
+       R2: 0.181
+  adj. R2: 0.178</code></pre>
+</div>
+</div>
+<p>“We found a difference in weight between female and male penguins, 95%CI [526g, 841g], with male animals being heavier.”</p>
+<p>–&gt; We reject the H0 (H0: no difference in MEANS! between the two groups).</p>
+</section>
+</section>
+<section id="bayesian-flavor" class="level2">
+<h2 class="anchored" data-anchor-id="bayesian-flavor">Bayesian flavor</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstanarm) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: Rcpp</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>This is rstanarm version 2.32.1</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>- See https://mc-stan.org/rstanarm/articles/priors for changes to default priors!</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>- Default priors may change, so it's safest to specify priors, even if equivalent to the defaults.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>- For execution on a local, multicore CPU with excess RAM we recommend calling</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>  options(mc.cores = parallel::detectCores())</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'rstanarm'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:parameters':
+
+    compare_models</code></pre>
+</div>
+</div>
+<p>Nearly the same R code as above:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>lm_peng_weight_sex_filtered <span class="ot">&lt;-</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stan_glm</span>(body_mass_g <span class="sc">~</span> sex, <span class="at">data =</span> penguins_filtered)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
+Chain 1: 
+Chain 1: Gradient evaluation took 0.000138 seconds
+Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 1.38 seconds.
+Chain 1: Adjust your expectations accordingly!
+Chain 1: 
+Chain 1: 
+Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 1: 
+Chain 1:  Elapsed Time: 0.203 seconds (Warm-up)
+Chain 1:                0.088 seconds (Sampling)
+Chain 1:                0.291 seconds (Total)
+Chain 1: 
+
+SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).
+Chain 2: 
+Chain 2: Gradient evaluation took 1.9e-05 seconds
+Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.19 seconds.
+Chain 2: Adjust your expectations accordingly!
+Chain 2: 
+Chain 2: 
+Chain 2: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 2: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 2: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 2: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 2: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 2: 
+Chain 2:  Elapsed Time: 0.599 seconds (Warm-up)
+Chain 2:                0.087 seconds (Sampling)
+Chain 2:                0.686 seconds (Total)
+Chain 2: 
+
+SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
+Chain 3: 
+Chain 3: Gradient evaluation took 2.1e-05 seconds
+Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.21 seconds.
+Chain 3: Adjust your expectations accordingly!
+Chain 3: 
+Chain 3: 
+Chain 3: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 3: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 3: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 3: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 3: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 3: 
+Chain 3:  Elapsed Time: 0.284 seconds (Warm-up)
+Chain 3:                0.082 seconds (Sampling)
+Chain 3:                0.366 seconds (Total)
+Chain 3: 
+
+SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
+Chain 4: 
+Chain 4: Gradient evaluation took 2.1e-05 seconds
+Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.21 seconds.
+Chain 4: Adjust your expectations accordingly!
+Chain 4: 
+Chain 4: 
+Chain 4: Iteration:    1 / 2000 [  0%]  (Warmup)
+Chain 4: Iteration:  200 / 2000 [ 10%]  (Warmup)
+Chain 4: Iteration:  400 / 2000 [ 20%]  (Warmup)
+Chain 4: Iteration:  600 / 2000 [ 30%]  (Warmup)
+Chain 4: Iteration:  800 / 2000 [ 40%]  (Warmup)
+Chain 4: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+Chain 4: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+Chain 4: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+Chain 4: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+Chain 4: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
+Chain 4: 
+Chain 4:  Elapsed Time: 0.238 seconds (Warm-up)
+Chain 4:                0.085 seconds (Sampling)
+Chain 4:                0.323 seconds (Total)
+Chain 4: </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">parameters</span>(lm_peng_weight_sex_filtered)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Parameter   |  Median |             95% CI |   pd |  Rhat |  ESS |                       Prior
+----------------------------------------------------------------------------------------------
+(Intercept) | 3863.22 | [3756.81, 3970.50] | 100% | 1.000 | 3818 | Normal (4207.06 +- 2013.04)
+sexmale     |  683.85 | [ 528.24,  840.02] | 100% | 1.000 | 3606 |    Normal (0.00 +- 4020.19)</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Uncertainty intervals (equal-tailed) computed using a MCMC distribution
+  approximation.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">r2</span>(lm_peng_weight_sex_filtered)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># Bayesian R2 with Compatibility Interval
+
+  Conditional R2: 0.180 (95% CI [0.113, 0.250])</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="common-research-designs" class="level1">
+<h1>Common research designs</h1>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+  g_control --&gt; Y
+  g_exp --&gt; Y
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
 </section>
 
 </main>

@@ -148,7 +148,7 @@ with male animals being heavier."
 
 
 ```{r}
-library(rstanarm)
+library(rstanarm) 
 ```
 
 
@@ -162,5 +162,15 @@ parameters(lm_peng_weight_sex_filtered)
 r2(lm_peng_weight_sex_filtered)
 ```
 
+
+
+# Common research designs
+
+
+```{mermaid}
+flowchart LR
+  g_control --> Y
+  g_exp --> Y
+```
 
 
