@@ -2,6 +2,7 @@
 title: "2025-09-18"
 subtitle: "Enough statistics to be dangerous"
 format: html
+author: Sebastian Sauer
 toc: true
 ---
 
@@ -154,18 +155,30 @@ library(rstanarm)
 
 Nearly the same R code as above:
 
+Bayes is slower (approx. 2-3 secs)
+
 ```{r}
+#| results: hide
 lm_peng_weight_sex_filtered <-
   stan_glm(body_mass_g ~ sex, data = penguins_filtered)
+```
 
-parameters(lm_peng_weight_sex_filtered)
+```{r}
+parameters(lm_peng_weight_sex_filtered) |> print_md()
 r2(lm_peng_weight_sex_filtered)
 ```
 
 
-
 # Common research designs
 
+
+## two groups, output variable measured after the intervention
+
+Example experiment:
+
+- n = 40 (20 per group)
+- RCT (randomized, controlled, trial)
+- good measurements
 
 ```{mermaid}
 flowchart LR
@@ -173,4 +186,93 @@ flowchart LR
   g_exp --> Y
 ```
 
+## ... with pre-test
+
+
+```{mermaid}
+flowchart LR
+  Y0 --> g_control
+  Y0 --> g_exp
+  g_control --> Y1
+  g_exp --> Y1
+```
+
+
+## .... within subject design
+
+```{mermaid}
+flowchart LR
+  Y0 --> g_control --> Y1 --> g_exp --> Y2
+```
+
+
+## Case study
+
+https://fopro.netlify.app/090-modellieren#vorher-nachher-messung-1-between-variable
+
+### Load the data
+
+```{r}
+#| results: hide
+d_bringtnixtin_path <- "https://raw.githubusercontent.com/sebastiansauer/fopra/main/data/d_bringtnixtin.csv"
+d_bringtnixtin <- read_csv(d_bringtnixtin_path)
+```
+
+### Prepare the data
+
+```{r}
+d_bringtnixtin <-
+  d_bringtnixtin %>% 
+  mutate(d = y2 - y1)
+```
+
+
+
+### Summarize the data
+
+```{r}
+d_bringtnixtin |> 
+  describe_distribution() |> 
+  print_md()
+```
+
+
+### Visualize the data
+
+```{r}
+ggboxplot(
+  data = d_bringtnixtin,
+  x = "g",
+  y = "d",
+  add = "mean"
+)
+```
+
+
+```{r}
+ggviolin(
+  data = d_bringtnixtin,
+  x = "g",
+  y = "d",
+  add = "mean_se"
+)
+```
+
+
+### Modeling
+
+```{r}
+#| results: hide
+m_bringtnixtin2 <- stan_glm(d ~ g,
+                            data = d_bringtnixtin)
+```
+
+```{r}
+parameters(m_bringtnixtin2) |> print_md()
+```
+
+
+```{r}
+parameters(m_bringtnixtin2) |> plot()
+```
 

@@ -6,6 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Sebastian Sauer">
 
 <title>2025-09-18</title>
 <style>
@@ -109,7 +110,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#bayesian-flavor" id="toc-bayesian-flavor" class="nav-link" data-scroll-target="#bayesian-flavor">Bayesian flavor</a></li>
   </ul></li>
-  <li><a href="#common-research-designs" id="toc-common-research-designs" class="nav-link" data-scroll-target="#common-research-designs">Common research designs</a></li>
+  <li><a href="#common-research-designs" id="toc-common-research-designs" class="nav-link" data-scroll-target="#common-research-designs">Common research designs</a>
+  <ul class="collapse">
+  <li><a href="#two-groups-output-variable-measured-after-the-intervention" id="toc-two-groups-output-variable-measured-after-the-intervention" class="nav-link" data-scroll-target="#two-groups-output-variable-measured-after-the-intervention">two groups, output variable measured after the intervention</a></li>
+  <li><a href="#with-pre-test" id="toc-with-pre-test" class="nav-link" data-scroll-target="#with-pre-test">… with pre-test</a></li>
+  <li><a href="#within-subject-design" id="toc-within-subject-design" class="nav-link" data-scroll-target="#within-subject-design">…. within subject design</a></li>
+  <li><a href="#case-study" id="toc-case-study" class="nav-link" data-scroll-target="#case-study">Case study</a>
+  <ul class="collapse">
+  <li><a href="#load-the-data-1" id="toc-load-the-data-1" class="nav-link" data-scroll-target="#load-the-data-1">Load the data</a></li>
+  <li><a href="#prepare-the-data" id="toc-prepare-the-data" class="nav-link" data-scroll-target="#prepare-the-data">Prepare the data</a></li>
+  <li><a href="#summarize-the-data" id="toc-summarize-the-data" class="nav-link" data-scroll-target="#summarize-the-data">Summarize the data</a></li>
+  <li><a href="#visualize-the-data" id="toc-visualize-the-data" class="nav-link" data-scroll-target="#visualize-the-data">Visualize the data</a></li>
+  <li><a href="#modeling" id="toc-modeling" class="nav-link" data-scroll-target="#modeling">Modeling</a></li>
+  </ul></li>
+  </ul></li>
   </ul>
 </nav>
 </div>
@@ -125,6 +139,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Sebastian Sauer </p>
+          </div>
+  </div>
     
   
     
@@ -758,134 +778,76 @@ Attaching package: 'rstanarm'</code></pre>
 </div>
 </div>
 <p>Nearly the same R code as above:</p>
+<p>Bayes is slower (approx. 2-3 secs)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>lm_peng_weight_sex_filtered <span class="ot">&lt;-</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stan_glm</span>(body_mass_g <span class="sc">~</span> sex, <span class="at">data =</span> penguins_filtered)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
-Chain 1: 
-Chain 1: Gradient evaluation took 0.000138 seconds
-Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 1.38 seconds.
-Chain 1: Adjust your expectations accordingly!
-Chain 1: 
-Chain 1: 
-Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)
-Chain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)
-Chain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)
-Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)
-Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)
-Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)
-Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)
-Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)
-Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)
-Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)
-Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
-Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
-Chain 1: 
-Chain 1:  Elapsed Time: 0.203 seconds (Warm-up)
-Chain 1:                0.088 seconds (Sampling)
-Chain 1:                0.291 seconds (Total)
-Chain 1: 
-
-SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).
-Chain 2: 
-Chain 2: Gradient evaluation took 1.9e-05 seconds
-Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.19 seconds.
-Chain 2: Adjust your expectations accordingly!
-Chain 2: 
-Chain 2: 
-Chain 2: Iteration:    1 / 2000 [  0%]  (Warmup)
-Chain 2: Iteration:  200 / 2000 [ 10%]  (Warmup)
-Chain 2: Iteration:  400 / 2000 [ 20%]  (Warmup)
-Chain 2: Iteration:  600 / 2000 [ 30%]  (Warmup)
-Chain 2: Iteration:  800 / 2000 [ 40%]  (Warmup)
-Chain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)
-Chain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)
-Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)
-Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)
-Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)
-Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
-Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
-Chain 2: 
-Chain 2:  Elapsed Time: 0.599 seconds (Warm-up)
-Chain 2:                0.087 seconds (Sampling)
-Chain 2:                0.686 seconds (Total)
-Chain 2: 
-
-SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
-Chain 3: 
-Chain 3: Gradient evaluation took 2.1e-05 seconds
-Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.21 seconds.
-Chain 3: Adjust your expectations accordingly!
-Chain 3: 
-Chain 3: 
-Chain 3: Iteration:    1 / 2000 [  0%]  (Warmup)
-Chain 3: Iteration:  200 / 2000 [ 10%]  (Warmup)
-Chain 3: Iteration:  400 / 2000 [ 20%]  (Warmup)
-Chain 3: Iteration:  600 / 2000 [ 30%]  (Warmup)
-Chain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)
-Chain 3: Iteration: 1000 / 2000 [ 50%]  (Warmup)
-Chain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)
-Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)
-Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)
-Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)
-Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
-Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
-Chain 3: 
-Chain 3:  Elapsed Time: 0.284 seconds (Warm-up)
-Chain 3:                0.082 seconds (Sampling)
-Chain 3:                0.366 seconds (Total)
-Chain 3: 
-
-SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
-Chain 4: 
-Chain 4: Gradient evaluation took 2.1e-05 seconds
-Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.21 seconds.
-Chain 4: Adjust your expectations accordingly!
-Chain 4: 
-Chain 4: 
-Chain 4: Iteration:    1 / 2000 [  0%]  (Warmup)
-Chain 4: Iteration:  200 / 2000 [ 10%]  (Warmup)
-Chain 4: Iteration:  400 / 2000 [ 20%]  (Warmup)
-Chain 4: Iteration:  600 / 2000 [ 30%]  (Warmup)
-Chain 4: Iteration:  800 / 2000 [ 40%]  (Warmup)
-Chain 4: Iteration: 1000 / 2000 [ 50%]  (Warmup)
-Chain 4: Iteration: 1001 / 2000 [ 50%]  (Sampling)
-Chain 4: Iteration: 1200 / 2000 [ 60%]  (Sampling)
-Chain 4: Iteration: 1400 / 2000 [ 70%]  (Sampling)
-Chain 4: Iteration: 1600 / 2000 [ 80%]  (Sampling)
-Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
-Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
-Chain 4: 
-Chain 4:  Elapsed Time: 0.238 seconds (Warm-up)
-Chain 4:                0.085 seconds (Sampling)
-Chain 4:                0.323 seconds (Total)
-Chain 4: </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">parameters</span>(lm_peng_weight_sex_filtered)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Parameter   |  Median |             95% CI |   pd |  Rhat |  ESS |                       Prior
-----------------------------------------------------------------------------------------------
-(Intercept) | 3863.22 | [3756.81, 3970.50] | 100% | 1.000 | 3818 | Normal (4207.06 +- 2013.04)
-sexmale     |  683.85 | [ 528.24,  840.02] | 100% | 1.000 | 3606 |    Normal (0.00 +- 4020.19)</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">parameters</span>(lm_peng_weight_sex_filtered) <span class="sc">|&gt;</span> <span class="fu">print_md</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 10%">
+<col style="width: 22%">
+<col style="width: 6%">
+<col style="width: 7%">
+<col style="width: 6%">
+<col style="width: 32%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: center;">Median</th>
+<th style="text-align: center;">95% CI</th>
+<th style="text-align: center;">pd</th>
+<th style="text-align: center;">Rhat</th>
+<th style="text-align: center;">ESS</th>
+<th style="text-align: center;">Prior</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: center;">3861.87</td>
+<td style="text-align: center;">(3748.86, 3979.43)</td>
+<td style="text-align: center;">100%</td>
+<td style="text-align: center;">1.000</td>
+<td style="text-align: center;">3664</td>
+<td style="text-align: center;">Normal (4207.06 +- 2013.04)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sexmale</td>
+<td style="text-align: center;">684.89</td>
+<td style="text-align: center;">(525.56, 847.02)</td>
+<td style="text-align: center;">100%</td>
+<td style="text-align: center;">1.000</td>
+<td style="text-align: center;">3678</td>
+<td style="text-align: center;">Normal (0.00 +- 4020.19)</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Uncertainty intervals (equal-tailed) computed using a MCMC distribution
-  approximation.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">r2</span>(lm_peng_weight_sex_filtered)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">r2</span>(lm_peng_weight_sex_filtered)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># Bayesian R2 with Compatibility Interval
 
-  Conditional R2: 0.180 (95% CI [0.113, 0.250])</code></pre>
+  Conditional R2: 0.180 (95% CI [0.105, 0.248])</code></pre>
 </div>
 </div>
 </section>
 </section>
 <section id="common-research-designs" class="level1">
 <h1>Common research designs</h1>
+<section id="two-groups-output-variable-measured-after-the-intervention" class="level2">
+<h2 class="anchored" data-anchor-id="two-groups-output-variable-measured-after-the-intervention">two groups, output variable measured after the intervention</h2>
+<p>Example experiment:</p>
+<ul>
+<li>n = 40 (20 per group)</li>
+<li>RCT (randomized, controlled, trial)</li>
+<li>good measurements</li>
+</ul>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
@@ -900,6 +862,260 @@ Uncertainty intervals (equal-tailed) computed using a MCMC distribution
 </div>
 </div>
 </div>
+</section>
+<section id="with-pre-test" class="level2">
+<h2 class="anchored" data-anchor-id="with-pre-test">… with pre-test</h2>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+  Y0 --&gt; g_control
+  Y0 --&gt; g_exp
+  g_control --&gt; Y1
+  g_exp --&gt; Y1
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="within-subject-design" class="level2">
+<h2 class="anchored" data-anchor-id="within-subject-design">…. within subject design</h2>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+  Y0 --&gt; g_control --&gt; Y1 --&gt; g_exp --&gt; Y2
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="case-study" class="level2">
+<h2 class="anchored" data-anchor-id="case-study">Case study</h2>
+<p>https://fopro.netlify.app/090-modellieren#vorher-nachher-messung-1-between-variable</p>
+<section id="load-the-data-1" class="level3">
+<h3 class="anchored" data-anchor-id="load-the-data-1">Load the data</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>d_bringtnixtin_path <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/sebastiansauer/fopra/main/data/d_bringtnixtin.csv"</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>d_bringtnixtin <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(d_bringtnixtin_path)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 40 Columns: 5
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+dbl (5): id, g, y1, y2, d
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+</section>
+<section id="prepare-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="prepare-the-data">Prepare the data</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>d_bringtnixtin <span class="ot">&lt;-</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  d_bringtnixtin <span class="sc">%&gt;%</span> </span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">d =</span> y2 <span class="sc">-</span> y1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="summarize-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="summarize-the-data">Summarize the data</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>d_bringtnixtin <span class="sc">|&gt;</span> </span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">describe_distribution</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print_md</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 18%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 5%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Variable</th>
+<th style="text-align: center;">Mean</th>
+<th style="text-align: center;">SD</th>
+<th style="text-align: center;">IQR</th>
+<th style="text-align: center;">Range</th>
+<th style="text-align: center;">Skewness</th>
+<th style="text-align: center;">Kurtosis</th>
+<th style="text-align: center;">n</th>
+<th style="text-align: center;">n_Missing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">id</td>
+<td style="text-align: center;">20.50</td>
+<td style="text-align: center;">11.69</td>
+<td style="text-align: center;">20.50</td>
+<td style="text-align: center;">(1.00, 40.00)</td>
+<td style="text-align: center;">0.00</td>
+<td style="text-align: center;">-1.20</td>
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">g</td>
+<td style="text-align: center;">0.50</td>
+<td style="text-align: center;">0.51</td>
+<td style="text-align: center;">1.00</td>
+<td style="text-align: center;">(0.00, 1.00)</td>
+<td style="text-align: center;">0.00</td>
+<td style="text-align: center;">-2.11</td>
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">y1</td>
+<td style="text-align: center;">-0.04</td>
+<td style="text-align: center;">1.22</td>
+<td style="text-align: center;">1.32</td>
+<td style="text-align: center;">(-2.66, 2.29)</td>
+<td style="text-align: center;">-0.29</td>
+<td style="text-align: center;">-0.23</td>
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">y2</td>
+<td style="text-align: center;">-0.19</td>
+<td style="text-align: center;">1.27</td>
+<td style="text-align: center;">1.58</td>
+<td style="text-align: center;">(-3.04, 2.13)</td>
+<td style="text-align: center;">-0.41</td>
+<td style="text-align: center;">-0.10</td>
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">d</td>
+<td style="text-align: center;">-0.15</td>
+<td style="text-align: center;">0.24</td>
+<td style="text-align: center;">0.34</td>
+<td style="text-align: center;">(-0.60, 0.32)</td>
+<td style="text-align: center;">-0.13</td>
+<td style="text-align: center;">-0.66</td>
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="visualize-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="visualize-the-data">Visualize the data</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggboxplot</span>(</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> d_bringtnixtin,</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="st">"g"</span>,</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="st">"d"</span>,</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">add =</span> <span class="st">"mean"</span></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2025-09-18_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggviolin</span>(</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> d_bringtnixtin,</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="st">"g"</span>,</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> <span class="st">"d"</span>,</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">add =</span> <span class="st">"mean_se"</span></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2025-09-18_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="modeling" class="level3">
+<h3 class="anchored" data-anchor-id="modeling">Modeling</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>m_bringtnixtin2 <span class="ot">&lt;-</span> <span class="fu">stan_glm</span>(d <span class="sc">~</span> g,</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">data =</span> d_bringtnixtin)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">parameters</span>(m_bringtnixtin2) <span class="sc">|&gt;</span> <span class="fu">print_md</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 13%">
+<col style="width: 19%">
+<col style="width: 9%">
+<col style="width: 8%">
+<col style="width: 7%">
+<col style="width: 28%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: center;">Median</th>
+<th style="text-align: center;">95% CI</th>
+<th style="text-align: center;">pd</th>
+<th style="text-align: center;">Rhat</th>
+<th style="text-align: center;">ESS</th>
+<th style="text-align: center;">Prior</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: center;">-1.31e-04</td>
+<td style="text-align: center;">(-0.08, 0.08)</td>
+<td style="text-align: center;">50.12%</td>
+<td style="text-align: center;">1.001</td>
+<td style="text-align: center;">3233</td>
+<td style="text-align: center;">Normal (-0.15 +- 0.59)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">g</td>
+<td style="text-align: center;">-0.30</td>
+<td style="text-align: center;">(-0.42, -0.18)</td>
+<td style="text-align: center;">100%</td>
+<td style="text-align: center;">1.002</td>
+<td style="text-align: center;">3414</td>
+<td style="text-align: center;">Normal (0.00 +- 1.17)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">parameters</span>(m_bringtnixtin2) <span class="sc">|&gt;</span> <span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2025-09-18_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
 </section>
 
 </main>
