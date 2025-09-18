@@ -3,6 +3,12 @@ title: "2025-09-16"
 format: html
 ---
 
+# The Master Short Key
+
+`Command+Shift+P`
+
+The only shortcut you will ever need.
+
 
 # Import data
 
@@ -13,6 +19,8 @@ d <- read.csv("https://vincentarelbundock.github.io/Rdatasets/csv/palmerpenguins
 
 # head(d)  # see the first few rows, the "head" of the table
 ```
+
+
 
 
 ## Import data from your own project folder (own computer)
@@ -33,7 +41,7 @@ library(tidyverse)
 ```
 
 
-# Descritive stasts: Getting a table
+# Descriptive stasts: Getting a table
 
 ```{r}
 describe_distribution(d) |> print_md()
@@ -67,8 +75,7 @@ library(ggpubr)
 gghistogram(d, 
             x = "body_mass_g",
             add = "mean"
-            )
-
+            ) 
 ```
 
 # Assocation
@@ -256,4 +263,29 @@ parameters(lm_weight_by_sex)
 ```{r}
 t.test(body_mass_g ~ sex, data = d_filtered)
 ```
+
+
+## y: numeric, x1: numeric, x2: nominal
+
+Research question
+
+>  Is weight a (linear) function of bill length and sex?
+
+
+pseudo code:
+
+`lm(y ~ x1 + x2, data = name_of_my_dataset)`
+
+
+## Exercise
+
+Write the lm code for the above research question.
+Save the results of the lm in some object.
+
+```{r}
+lm()
+```
+
+
+
 

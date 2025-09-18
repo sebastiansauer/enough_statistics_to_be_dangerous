@@ -22,4 +22,28 @@ format: html
 
 # Have fun!
 
+# Regression
+
+
+## y: numeric, x1: numeric, x2: nominal
+
+Research question
+
+>  Is weight a (linear) function of bill length and sex?
+
+
+pseudo code:
+
+`lm(y ~ x1 + x2, data = name_of_my_dataset)`
+
+
+## Exercise
+
+Write the lm code for the above research question.
+Save the results of the lm in some object.
+
+```{r}
+lm()
+```
+
 
